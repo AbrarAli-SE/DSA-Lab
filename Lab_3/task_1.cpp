@@ -12,7 +12,6 @@ int main()
    cout << alphaPtr << endl;
    cout << *betaPtr << endl;
 
-
    return 0;
 
 }
