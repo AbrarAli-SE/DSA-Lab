@@ -11,6 +11,7 @@ public:
         next = NULL;
     }
 };
+
 void insertValueAtHead(Node *&head, int val)
 {
     Node *newNode = new Node(val);
@@ -49,16 +50,27 @@ void deletationAtSpacificPoint(Node *&head, int pos)
 
     free(temp);
 }
-bool search(Node *head, int key) {
+
+void search(Node *head, int key)
+{
     Node *temp = head;
-    
-    while (temp != NULL) {
+    int pos = 0; 
+
+    while (temp != NULL)
+    {
         if (temp->value == key)
-            return true;
+        {
+            cout << "Value " << key << " found at position " << pos << endl;
+            return ;
+        }
         temp = temp->next;
+        pos++;
     }
-    return false;
+
+    cout << "Value " << key << " not found in the list." << endl;
+    return ;
 }
+
 void display(Node *head)
 {
     Node *temp = head;
@@ -86,7 +98,18 @@ int main()
     display(head);
 
     // deletation
-    cout<<""
+    int position;
+    cout << "\nEnter position to delete (0 to " << size - 1 << "): ";
+    cin >> position;
+    deletationAtSpacificPoint(head, position);
+    cout << "Linked List after deletion: ";
+    display(head);
 
     // searching
+    int searchValue;
+    cout << "\nEnter value to search: ";
+    cin >> searchValue;
+    search(head, searchValue);
+    return 0;
+
 }
