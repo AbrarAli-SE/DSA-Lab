@@ -19,6 +19,8 @@ void insertValueAtHead(Node *&head, int val)
 }
 void insertValueAtTail(Node *&head, int val)
 {
+    if(head==NULL)
+    insertValueAtHead(head,val);
     Node *newNode = new Node(val);
     Node *temp = head;
     while (temp->next != NULL)
@@ -32,20 +34,23 @@ void display(Node *head)
     Node *temp = head;
     while (temp != NULL)
     {
-        cout << " -> " << temp->value;
+        cout << temp->value << " ";
         temp = temp->next;
     }
-    cout << endl;
+    cout << "NULL" << endl;
 }
 int main()
 {
 
+    int size, value;
     Node *head = NULL;
-    insertValueAtHead(head,0);
-    insertValueAtTail(head, 5);
-    insertValueAtTail(head, 15);
-    insertValueAtTail(head, 25);
-    insertValueAtTail(head, 35);
-
+    cout << "How much value that you want to store in list : ";
+    cin >> size;
+    for (int i = 1; i <= size; i++)
+    {
+        cout << "Enter value " << i << ": ";
+        cin >> value;
+        insertValueAtTail(head, value);
+    }
     display(head);
 }
