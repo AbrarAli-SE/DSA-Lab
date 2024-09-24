@@ -40,6 +40,5 @@ int main()
         cin >> value;
         insertValueAtHead(head, value);
     }
-
     display(head);
 }
