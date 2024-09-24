@@ -49,6 +49,16 @@ void deletationAtSpacificPoint(Node *&head, int pos)
 
     free(temp);
 }
+bool search(Node *head, int key) {
+    Node *temp = head;
+    
+    while (temp != NULL) {
+        if (temp->value == key)
+            return true;
+        temp = temp->next;
+    }
+    return false;
+}
 void display(Node *head)
 {
     Node *temp = head;
