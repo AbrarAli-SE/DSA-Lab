@@ -1,44 +1,45 @@
+//insert at beggining
 #include <iostream>
 using namespace std;
-class Node
+struct Node
 {
-public:
-    int value;
+    int data;
+    Node *prev;
     Node *next;
-    Node(int val)
-    {
-        value = val;
-        next = NULL;
-    }
 };
-void insertValueAtHead(Node *&head, int val)
+void inseartAtBeginning(Node **head, int newData)
 {
-    Node *newNode = new Node(val);
-    newNode->next = head;
-    head = newNode;
+    Node *newNode = new Node();
+    newNode->data = newData;
+    newNode->prev = NULL;
+    newNode->next = (*head);
+
+    if (*head != NULL)
+    {
+        (*head)->prev = newNode;
+    }
+    *head = newNode;
 }
+
 void display(Node *head)
 {
     Node *temp = head;
     while (temp != NULL)
     {
-        cout << temp->value << " ";
+        cout << temp->data << " ";
         temp = temp->next;
     }
-    cout << "NULL" << endl;
+    cout << endl;
 }
 int main()
 {
-
-    int size, value;
     Node *head = NULL;
-    cout << "How much value that you want to store in list : ";
-    cin >> size;
-    for (int i = 1; i <= size; i++)
-    {
-        cout << "Enter value " << i << ": ";
-        cin >> value;
-        insertValueAtHead(head, value);
-    }
+    inseartAtBeginning(&head, 10);
+    inseartAtBeginning(&head, 20);
+    inseartAtBeginning(&head, 30);
+
+    cout << "Linked List: ";
     display(head);
+
+    return 0;
 }

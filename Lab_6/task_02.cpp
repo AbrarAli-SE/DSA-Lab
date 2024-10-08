@@ -1,57 +1,88 @@
 #include <iostream>
 using namespace std;
+
 class Node
 {
 public:
     int value;
+    Node *prev;
     Node *next;
-    Node() {}
+
     Node(int val)
     {
         value = val;
+        prev = NULL;
         next = NULL;
     }
 };
-void insert(Node *&head, int val)
+
+// Function to insert at the end
+void insertAtEnd(Node *&head, int val)
 {
     Node *newNode = new Node(val);
-    newNode->next = head;
-    head = newNode;
+    if (head == NULL)
+    {
+        head = newNode;
+        return;
+    }
+    Node *temp = head;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    newNode->prev = temp;
 }
-void display(Node *&head)
+
+// Function to traverse forward
+void traverseForward(Node *head)
 {
     Node *temp = head;
     while (temp != NULL)
     {
-        cout << temp->value << " ";
+        cout << temp->value << " -> ";
         temp = temp->next;
     }
-    free(temp);
-    cout << endl;
+    cout << "NULL\n";
 }
-void reverse(Node *&head)
+
+// Function to traverse backward
+void traverseBackward(Node *head)
 {
-    if (head == NULL)
+    Node *temp = head;
+    if (temp == NULL)
         return;
-    reverse(head->next);
-    cout << head->value << " ";
+
+    // Move to the last node
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+
+    // Traverse backward
+    while (temp != NULL)
+    {
+        cout << temp->value << " -> ";
+        temp = temp->prev;
+    }
+    cout << "NULL\n";
 }
+
 int main()
 {
     Node *head = NULL;
-    int size,value;
-    cout << "How much value that you want to store in list : ";
-    cin >> size;
-    for (int i = 1; i <= size; i++)
-    {
-        cout << "Enter value " << i << ": ";
-        cin >> value;
-        insert(head, value);
-    }
-    cout << "\nOrignal List : ";
-    display(head);
 
-    cout << "\nReverse List : ";
-    reverse(head);
+    insertAtEnd(head, 10);
+    insertAtEnd(head, 20);
+    insertAtEnd(head, 30);
+    insertAtEnd(head, 40);
+    insertAtEnd(head, 50);
+
+    cout << "Traversing Forward: ";
+    traverseForward(head);
+
+    cout << "Traversing Backward: ";
+    traverseBackward(head);
+
+    return 0;
 }
-// done

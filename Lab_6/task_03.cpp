@@ -1,109 +1,185 @@
 #include <iostream>
 using namespace std;
 
-// Array Insertion
-void arrayInsert(int arr[], int &size, int pos, int val)
-{
-    // Shift elements to the right
-    for (int i = size; i > pos; i--)
-    {
-        arr[i] = arr[i - 1];
-    }
-    arr[pos] = val;
-    size++;
-}
-
-// Array Deletion
-void arrayDelete(int arr[], int &size, int pos)
-{
-    // Shift elements to the left
-    for (int i = pos; i < size - 1; i++)
-    {
-        arr[i] = arr[i + 1];
-    }
-    size--;
-}
-
-// Node class for linked list
 class Node
 {
 public:
     int value;
+    Node *prev;
     Node *next;
-    Node(int val) : value(val), next(NULL) {}
+
+    Node(int val)
+    {
+        value = val;
+        prev = NULL;
+        next = NULL;
+    }
 };
 
-// Linked List Insertion at Head
-void linkedListInsertAtHead(Node *&head, int val)
+// Function to insert at the end
+void insertAtEnd(Node *&head, int val)
 {
     Node *newNode = new Node(val);
-    newNode->next = head;
-    head = newNode;
+    if (head == NULL)
+    {
+        head = newNode;
+        return;
+    }
+    Node *temp = head;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    newNode->prev = temp;
 }
 
-// Linked List Deletion at Head
-void linkedListDeleteAtHead(Node *&head)
+// Function to insert at a specific position with edge case handling
+void insertAtPosition(Node *&head, int val, int pos)
 {
+    if (pos < 1)
+    {
+        cout << "Invalid position!\n";
+        return;
+    }
+
+    Node *newNode = new Node(val);
+
+    // Insert at the beginning
+    if (pos == 1)
+    {
+        newNode->next = head;
+        if (head != NULL)
+        {
+            head->prev = newNode;
+        }
+        head = newNode;
+        return;
+    }
+
+    Node *temp = head;
+    for (int i = 1; temp != NULL && i < pos - 1; i++)
+    {
+        temp = temp->next;
+    }
+
+    // If the position is greater than the list length
+    if (temp == NULL)
+    {
+        cout << "Position is out of bounds, inserting at the end.\n";
+        insertAtEnd(head, val);
+        return;
+    }
+
+    newNode->next = temp->next;
+    newNode->prev = temp;
+    if (temp->next != NULL)
+    {
+        temp->next->prev = newNode;
+    }
+    temp->next = newNode;
+}
+
+// Function to delete from the beginning
+void deleteFromBeginning(Node *&head)
+{
+    if (head == NULL)
+    {
+        cout << "List is empty, nothing to delete.\n";
+        return;
+    }
+    Node *temp = head;
+    head = head->next;
     if (head != NULL)
     {
-        Node *temp = head;
-        head = head->next;
-        delete temp;
+        head->prev = NULL;
     }
+    delete temp;
 }
 
-// Display array
-void displayArray(int arr[], int size)
+// Function to delete from the end
+void deleteFromEnd(Node *&head)
 {
-    for (int i = 0; i < size; i++)
+    if (head == NULL)
     {
-        cout << arr[i] << " ";
+        cout << "List is empty, nothing to delete.\n";
+        return;
     }
-    cout << endl;
+    Node *temp = head;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    if (temp->prev != NULL)
+    {
+        temp->prev->next = NULL;
+    }
+    else
+    {
+        head = NULL;
+    }
+    delete temp;
 }
 
-// Display linked list
-void displayLinkedList(Node *head)
+// Function to delete all nodes one by one
+void deleteAllNodes(Node *&head)
 {
+    while (head != NULL)
+    {
+        deleteFromBeginning(head);
+    }
+    cout << "All nodes deleted.\n";
+}
+
+// Function to display the list
+void display(Node *head)
+{
+    if (head == NULL)
+    {
+        cout << "List is empty.\n";
+        return;
+    }
     Node *temp = head;
     while (temp != NULL)
     {
-        cout << temp->value << " ";
+        cout << temp->value << " <-> ";
         temp = temp->next;
     }
-    cout << endl;
+    cout << "NULL\n";
 }
 
 int main()
 {
-    // Array example
-    int arr[10] = {1, 2, 3, 4, 5};
-    int size = 5;
-    cout << "Array before insertion: ";
-    displayArray(arr, size);
-
-    // Insert into array at position 2 (index 2)
-    arrayInsert(arr, size, 2, 99);
-    cout << "Array after insertion: ";
-    displayArray(arr, size);
-
-    // Delete from array at position 2
-    arrayDelete(arr, size, 2);
-    cout << "Array after deletion: ";
-    displayArray(arr, size);
-
-    // Linked List example
     Node *head = NULL;
-    linkedListInsertAtHead(head, 5);
-    linkedListInsertAtHead(head, 10);
-    linkedListInsertAtHead(head, 15);
-    cout << "Linked List before deletion: ";
-    displayLinkedList(head);
 
-    // Delete head of linked list
-    linkedListDeleteAtHead(head);
-    cout << "Linked List after deletion: ";
-    displayLinkedList(head);
+    // Edge Case 1: Deleting from an empty list
+    cout << "Attempt to delete from an empty list:\n";
+    deleteFromBeginning(head);
+    deleteFromEnd(head);
+
+    // Insert some nodes
+    insertAtEnd(head, 10);
+    insertAtEnd(head, 20);
+    insertAtEnd(head, 30);
+    insertAtEnd(head, 40);
+    insertAtEnd(head, 50);
+
+    cout << "\nList after insertion: ";
+    display(head);
+
+    // Edge Case 2: Inserting at a position greater than the length of the list
+    cout << "\nAttempt to insert at position 10 (greater than the list length):\n";
+    insertAtPosition(head, 100, 10);
+    display(head);
+
+    // Edge Case 3: Deleting all nodes one by one and further deletion attempts
+    cout << "\nDeleting all nodes one by one:\n";
+    deleteAllNodes(head);
+    display(head);
+
+    cout << "\nAttempt to delete after all nodes are deleted:\n";
+    deleteFromBeginning(head);
+    deleteFromEnd(head);
 
     return 0;
 }

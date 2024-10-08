@@ -1,56 +1,81 @@
+//delete from end
 #include <iostream>
 using namespace std;
-class Node
+struct Node
 {
-public:
-    int value;
+    int data;
+    Node *prev;
     Node *next;
-    Node(int val)
-    {
-        value = val;
-        next = NULL;
-    }
 };
-void insertValueAtHead(Node *&head, int val)
+void insertAtEnd(Node **head, int newData)
 {
-    Node *newNode = new Node(val);
-    newNode->next = head;
-    head = newNode;
+    // Create a new node
+    Node *newNode = new Node();
+    newNode->data = newData;
+    newNode->next = NULL;
+
+    // If the list is empty, make the new node the head
+    if (*head == NULL)
+    {
+        newNode->prev = NULL;
+        *head = newNode;
+        return;
+    }
+
+    // Otherwise, traverse to the last node
+    Node *last = *head;
+    while (last->next != NULL)
+    {
+        last = last->next;
+    }
+
+    // Adjust pointers for the new node
+    last->next = newNode;
+    newNode->prev = last;
 }
-void insertValueAtTail(Node *&head, int val)
+void deletefromEnd(Node **head)
 {
-    if(head==NULL)
-    insertValueAtHead(head,val);
-    Node *newNode = new Node(val);
-    Node *temp = head;
+    if (*head == NULL)
+        return;
+    Node *temp = *head;
     while (temp->next != NULL)
     {
         temp = temp->next;
     }
-    temp->next = newNode;
-}
-void display(Node *head)
-{
-    Node *temp = head;
-    while (temp != NULL)
+
+    if (temp->prev != NULL)
     {
-        cout << temp->value << " ";
-        temp = temp->next;
+        temp->prev->next = NULL;
     }
-    cout << "NULL" << endl;
+    else
+    {
+        *head = NULL;
+    }
+    delete temp;
+}
+
+void printList(Node *node)
+{
+    while (node != NULL)
+    {
+        cout << node->data << " -> ";
+        node = node->next;
+    }
+    cout << "NULL\n";
 }
 int main()
 {
-
-    int size, value;
     Node *head = NULL;
-    cout << "How much value that you want to store in list : ";
-    cin >> size;
-    for (int i = 1; i <= size; i++)
-    {
-        cout << "Enter value " << i << ": ";
-        cin >> value;
-        insertValueAtTail(head, value);
-    }
-    display(head);
+    insertAtEnd(&head, 10);
+    insertAtEnd(&head, 20);
+    insertAtEnd(&head, 30);
+
+    cout << "Before Delete: ";
+    printList(head);
+
+    deletefromEnd(&head);
+
+    cout << "\nAfter Delete: ";
+    printList(head);
+    return 0;
 }

@@ -1,40 +1,75 @@
+// insert at end
 #include <iostream>
 using namespace std;
-class Node
+
+struct Node
 {
-public:
-    int value;
+    int data;
+    Node *prev;
     Node *next;
-    Node(int val)
-    {
-        value = val;
-        next = NULL;
-    }
 };
-void insertValueAtHead(Node *&head, int val)
+
+void inseartAtBeginning(Node **head, int newData)
 {
-    Node *newNode = new Node(val);
-    newNode->next = head;
-    head = newNode;
+    Node *newNode = new Node();
+    newNode->data = newData;
+    newNode->prev = NULL;
+    newNode->next = (*head);
+
+    if (*head != NULL)
+    {
+        (*head)->prev = newNode;
+    }
+    *head = newNode;
 }
+
+void insertAtEnd(Node **head, int newData)
+{
+    Node *newNode = new Node();
+    newNode->data = newData;
+    newNode->next = NULL;
+
+    if (*head == NULL)
+    {
+        newNode->prev = NULL;
+        *head = newNode;
+        return;
+    }
+
+    Node *last = *head;
+    while (last->next != NULL)
+    {
+        last = last->next;
+    }
+
+    last->next = newNode;
+    newNode->prev = last;
+}
+
 void display(Node *head)
 {
     Node *temp = head;
     while (temp != NULL)
     {
-        cout << temp->value << " ";
+        cout << temp->data << " ";
         temp = temp->next;
     }
-    cout << "NULL" << endl;
+    cout << endl;
 }
+
 int main()
 {
-
     Node *head = NULL;
+    inseartAtBeginning(&head, 10);
+    inseartAtBeginning(&head, 20);
+    inseartAtBeginning(&head, 30);
 
-    insertValueAtHead(head, 10);
-    insertValueAtHead(head, 20);
-    insertValueAtHead(head, 30);
+    insertAtEnd(&head, 40);
+    insertAtEnd(&head, 50);
 
+    cout << "Doubly Linked List: ";
     display(head);
+
+
+    return 0;
 }
