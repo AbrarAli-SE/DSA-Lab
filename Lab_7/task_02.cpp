@@ -72,7 +72,6 @@ int main()
 {
     Node *head = NULL;
 
-    // Inserting 5 nodes
     insertAtEnd(head, 10);
     insertAtEnd(head, 20);
     insertAtEnd(head, 30);
