@@ -74,7 +74,7 @@ int main()
 
     deletefromEnd(&head);
 
-    cout << "After Delete: ";
+    cout << "\nAfter Delete: ";
     printList(head);
     return 0;
 }
