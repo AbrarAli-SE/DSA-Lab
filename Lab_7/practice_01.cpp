@@ -1,3 +1,4 @@
+//insert at beggining
 #include <iostream>
 using namespace std;
 struct Node
@@ -19,13 +20,7 @@ void inseartAtBeginning(Node **head, int newData)
     }
     *head = newNode;
 }
-void printreverse(Node *&head)
-{
-    if (head == NULL)
-        return;
-    printreverse(head->next);
-    cout << head->data << " ";
-}
+
 void display(Node *head)
 {
     Node *temp = head;
@@ -43,11 +38,8 @@ int main()
     inseartAtBeginning(&head, 20);
     inseartAtBeginning(&head, 30);
 
-    cout << "Doubly Linked List: ";
+    cout << "Linked List: ";
     display(head);
-
-    cout << "Reversed List: ";
-    printreverse(head);
 
     return 0;
 }

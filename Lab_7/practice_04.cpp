@@ -1,3 +1,4 @@
+//delete from beggining
 #include <iostream>
 using namespace std;
 

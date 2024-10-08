@@ -1,14 +1,12 @@
-// insert at end
+// traversal
 #include <iostream>
 using namespace std;
-
 struct Node
 {
     int data;
     Node *prev;
     Node *next;
 };
-
 void inseartAtBeginning(Node **head, int newData)
 {
     Node *newNode = new Node();
@@ -22,30 +20,13 @@ void inseartAtBeginning(Node **head, int newData)
     }
     *head = newNode;
 }
-
-void insertAtEnd(Node **head, int newData)
+void printreverse(Node *&head)
 {
-    Node *newNode = new Node();
-    newNode->data = newData;
-    newNode->next = NULL;
-
-    if (*head == NULL)
-    {
-        newNode->prev = NULL;
-        *head = newNode;
+    if (head == NULL)
         return;
-    }
-
-    Node *last = *head;
-    while (last->next != NULL)
-    {
-        last = last->next;
-    }
-
-    last->next = newNode;
-    newNode->prev = last;
+    printreverse(head->next);
+    cout << head->data << " ";
 }
-
 void display(Node *head)
 {
     Node *temp = head;
@@ -56,7 +37,6 @@ void display(Node *head)
     }
     cout << endl;
 }
-
 int main()
 {
     Node *head = NULL;
@@ -64,12 +44,11 @@ int main()
     inseartAtBeginning(&head, 20);
     inseartAtBeginning(&head, 30);
 
-    insertAtEnd(&head, 40);
-    insertAtEnd(&head, 50);
-
     cout << "Doubly Linked List: ";
     display(head);
 
+    cout << "Reversed List: ";
+    printreverse(head);
 
     return 0;
 }
