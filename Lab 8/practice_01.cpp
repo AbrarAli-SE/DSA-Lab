@@ -1,99 +1,98 @@
 #include <iostream>
 using namespace std;
 
-class Queue
+class Stack
 {
 private:
-    int front, rear, size;
-    int *queue;
+    int top;
+    int size;
+    int *stack;
 
 public:
-    Queue(int s)
+    Stack(int s)
     {
-        front = rear = -1;
         size = s;
-        queue = new int[size];
+        stack = new int[size];
+        top = -1;
     }
 
-    void enqueue(int value)
+    void push(int value)
     {
-        if (rear == size - 1)
+        if (top == size - 1)
         {
-            cout << "Queue is full!" << endl;
+            cout << "Stack is full!" << endl;
         }
         else
         {
-            if (front == -1)
-                front = 0;
-            rear++;
-            queue[rear] = value;
-            cout << value << " added to the queue" << endl;
+            top++;
+            stack[top] = value;
+            cout << value << " pushed onto the stack" << endl;
         }
     }
 
-    void dequeue()
+    void pop()
     {
-        if (front == -1 || front > rear)
+        if (top == -1)
         {
-            cout << "Queue is empty!" << endl;
+            cout << "Stack is empty!" << endl;
         }
         else
         {
-            cout << queue[front] << " removed from the queue" << endl;
-            front++;
+            cout << stack[top] << " popped from the stack" << endl;
+            top--;
         }
     }
 
     void display()
     {
-        if (front == -1)
+        if (top == -1)
         {
-            cout << "Queue is empty!" << endl;
+            cout << "Stack is empty!" << endl;
         }
         else
         {
-            cout << "Queue elements: ";
-            for (int i = front; i <= rear; i++)
+            cout << "Stack elements: ";
+            for (int i = top; i >= 0; i--)
             {
-                cout << queue[i] << " ";
+                cout << stack[i] << " ";
             }
             cout << endl;
         }
     }
 
-    ~Queue()
+    ~Stack()
     {
-        delete[] queue;
+        delete[] stack;
     }
 };
 
 int main()
 {
     int size;
-    cout << "Enter the size of the queue: ";
+    cout << "Enter the size of the stack: ";
     cin >> size;
 
-    Queue q(size);
+    Stack s(size);
     int choice, value;
 
     do
     {
-        cout << "\n1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n";
+        cout << "\n1. Push\n2. Pop\n3. Display\n4. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice)
         {
         case 1:
-            cout << "Enter a value to enqueue: ";
+            cout << "Enter a value to push: ";
             cin >> value;
-            q.enqueue(value);
+            s.push(value);
             break;
         case 2:
-            q.dequeue();
+            s.pop();
             break;
         case 3:
-            q.display();
+            s.display();
             break;
         case 4:
             cout << "Exiting..." << endl;
