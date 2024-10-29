@@ -9,7 +9,7 @@ void insertionSorting(int arr[])
         int j = i - 1;
         bool swapped = false; 
 
-        while (j >= 0 && arr[j] > key)
+        while (j >= 0 && arr[j] < key)
         {
             arr[j + 1] = arr[j];
             j = j - 1;

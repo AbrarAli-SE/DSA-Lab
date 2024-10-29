@@ -1,23 +1,23 @@
 #include <iostream>
 using namespace std;
-
-void selectionSorting(int arr[])
+void bubbleSorting(int arr[])
 {
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 10 - 1; i++)
     {
-        int minIndex = i;
-        for (int j = i + 1; j < 10; j++)
+        bool swapped = false;
+        for (int j = 0; j < 10 - i - 1; j++)
         {
-            if (arr[j] < arr[minIndex])
+            if (arr[j] > arr[j + 1])
             {
-                minIndex = j;
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                swapped = true;
             }
         }
-        if (minIndex != i)
+        if (!swapped)
         {
-            int temp = arr[i];
-            arr[i] = arr[minIndex];
-            arr[minIndex] = temp;
+            break;
         }
     }
 }
@@ -31,7 +31,7 @@ int main()
         cin >> arr[i];
     }
 
-    selectionSorting(arr);
+    bubbleSorting(arr);
 
     cout << "\nFinal sorted array: ";
     for (int i = 0; i < 10; i++)
